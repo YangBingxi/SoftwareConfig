@@ -1,6 +1,6 @@
 #!/bin/bash
 <<'COMMENT'
-COMMENT
+
 echo -e  "\033[31m 执行该脚本将会删除您之前安装的vim配置，如有需要，请妥善保存之前的配置文件。 \033[0m"
 
 yes="yes"
@@ -13,7 +13,7 @@ else
 	echo "退出安装..."
 	exit
 fi
-
+COMMENT
 echo -e  "\033[32m 安装配置需要一定的时间，请耐心等待 \033[0m"
 #删除旧的配置文件
 sudo apt remove vim* -y
