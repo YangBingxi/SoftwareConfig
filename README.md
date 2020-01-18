@@ -1,1 +1,1 @@
-# SoftworeConfig
+# SoftwareConfig
