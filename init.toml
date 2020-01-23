@@ -1,0 +1,216 @@
+#=============================================================================
+# dark_powered.toml --- dark powered configuration example for SpaceVim
+# Copyright (c) 2016-2017 Wang Shidong & Contributors
+# Author: Wang Shidong < wsdjeg at 163.com >
+# URL: https://spacevim.org
+# License: GPLv3
+#=============================================================================
+
+#=============================================================================
+# 配置模块可以参考  https://spacevim.org/cn/layers/
+
+# All SpaceVim option below [option] section
+# Enable autocomplete layer
+[[layers]]
+name = 'autocomplete' #启用自动补全插件
+auto-completion-return-key-behavior = "complete" #补全
+auto-completion-tab-key-behavior = "cycle" #循环模式，自动再补全列表之间循环
+#auto_completion_delay = 50 #设置自动补全延迟时间，默认 50 毫秒
+
+[[layers]]
+name = 'shell'
+default_position = 'top'
+default_height = 30
+
+
+#以下为C语言相关的配置
+[[layers]]
+  name = "lang#c"
+
+[[layers]]
+  name = "lsp"
+  filetypes = [
+    "c",
+    "cpp"
+  ]
+  [layers.override_cmd]
+    c = ["clangd"]
+
+[[layers]]
+  name = "format"
+
+
+#启用版本控制模块
+#[[layers]]
+#  name = "VersionControl"
+
+#启用聊天功能
+#Alt-x	打开/关闭 QQ 聊天窗口
+#Alt-w	打开/关闭微信聊天窗口
+#[[layers]]
+#  name = "chat"
+#
+
+#启用自动语法检查特性，默认会在光标的下一行显示当前行错误的详细信息，如果需要禁用这一特性，可以在载入模块 时指定 show_cursor_error 的值为 false。
+# SPC e . 	打开错误临时快捷键菜单
+# SPC e c 	清除错误列表
+# SPC e h 	描述当前检查工具
+# SPC e n 	跳至下一个语法错误位置
+# SPC e N 	跳至上一个语法错误位置
+# SPC e p 	跳至上一个语法错误位置
+# SPC e l 	列出错误列表窗口
+# SPC e L 	列出错误列表窗口并跳至该窗口
+# SPC e e 	解释光标处的语法错误
+# SPC e s 	设置语法检查工具 (TODO)
+# SPC e S 	设置语法检查工具执行命令 (TODO)
+# SPC e v 	确认语法检查工具启动状态
+# SPC t s 	临时启用/禁用语法检查
+
+[[layers]]
+  name = "checkers"
+#  show_cursor_error = false
+  lint_on_the_fly = true #启用实时检测
+# 主题模块
+[[layers]]
+  name = "colorscheme"
+# 启用ctrlp模块
+[[layers]]
+  name = "ctrlp"
+# <Leader> 键为 \ 
+# <Leader> f <Space> 	模糊查找快捷键，并执行该快捷键
+# <Leader> f p 	模糊查找已安装插件
+# <Leader> f e 	模糊搜索寄存器
+# <Leader> f h 	模糊搜索 history/yank
+# <Leader> f j 	模糊搜索 jump, change
+# <Leader> f o 	模糊搜索函数列表
+# <Leader> f q 	模糊搜索 quickfix list
+
+#debug模块
+[[layers]]
+  name = "debug"
+# SPC d l 	启动 debugger
+# SPC d c 	继续下一步
+# SPC d b 	添加/去除当前行断点
+# SPC d B 	清除所有断点
+# SPC d o 	单步执行
+# SPC d i 	跳至方法体
+# SPC d O 	运行至当前方法结束
+# SPC d e s 	打印并求值选中的文本
+# SPC d e e 	打印并求值光标所在变量
+# SPC d e S 	执行选中的文本
+# SPC d k 	关闭 debugger
+
+#状态栏
+[[layers]]
+  name = "core#statusline"
+# 启用format模块
+[[layers]]
+  name = "format"
+
+
+#启用git
+[[layers]]
+  name = "git"
+# SPC g s 	打开 git status 窗口
+# SPC g S 	stage 当前文件
+# SPC g U 	unstage 当前文件
+# SPC g c 	打开 git commit 窗口
+# SPC g p 	执行 git push
+# SPC g d 	打开 git diff 窗口
+# SPC g A 	git add 所有文件
+# SPC g b 	打开 git blame 窗口
+# SPC g h a 	stage current hunk
+# SPC g h r 	undo cursor hunk
+# SPC g h v 	preview cursor hunk
+
+#启用github
+[[layers]]
+  name = "github"
+# SPC g h i 	显示当前仓库问题列表
+# SPC g h a 	显示最新动态
+# SPC g h d 	显示个人面板
+# SPC g h f 	在浏览器中打开当前文件
+# SPC g h I 	在浏览器中显示问题列表
+# SPC g h p 	在浏览器中显示拉取请求列表
+# SPC g g l 	显示所有的 gist
+# SPC g g p 	发布 gist
+
+#启用java模块
+[[layers]]
+  name = "lang#java"
+#启用javascript模块
+[[layers]]
+  name = "lang#javascript"
+  auto_fix = true
+  enable_flow_syntax = true
+#启用python模块
+[[layers]]
+  name = "lang#python"
+  format_on_save = 1
+#启用html模块
+#通过npm安装html的语言服务器，配合lsp模块提供代码补全等特性。
+# npm install --global vscode-html-languageserver-bin
+# Ctrl-e 	emmet 前缀键
+[[layers]]
+  name = "lang#html"
+#启用sh模块
+[[layers]]
+  name = "lang#sh"
+#启用markdown模块,markdowm模块加载出错
+#[[layers]]
+#  name = "lang#markdown"
+
+#启用tool模块
+# :SourceCounter 	项目代码统计
+# :MundoToggle 	打开/关闭文件编辑历史树
+# :Cheat 	查阅工具表
+[[layers]]
+  name = "tools"
+
+# Options配置
+[options]
+	colorscheme = "palenight" #颜色主题为palenight
+	enable_clang_syntax_highlight = true #基于clang的语法高亮
+
+    # options for statusline
+    # 设置状态栏上分割符号形状，如果字体安装失败，可以将值设为 "nil" 以禁用分割符号，
+    # 分割符包括以下几种 "arrow", "curve", "slant", "fire", "nil"，默认为箭头 "arrow"
+    # 设置活动窗口状态栏上的分割符号形状
+    statusline_separator = "arrow"
+    # 设置非活动窗口状态栏上的分割符号形状
+    statusline_inactive_separator = "bar"
+
+    # 设置顶部标签列表序号类型，有以下五种类型，分别是 0 - 4
+    buffer_index_type = 4
+    # 0: 1 ➛ ➊
+    # 1: 1 ➛ ➀
+    # 2: 1 ➛ ⓵
+    # 3: 1 ➛ ¹
+    # 4: 1 ➛ 1
+
+    # 是否在状态栏上显示当前模式，默认情况下，不显示 Normal/Insert 等
+    enable_statusline_mode = true
+
+    # 状态栏左端部分的构成
+    statusline_left_sections = ['winnr', 'major mode', 'filename', 'fileformat', 'minor mode lighters', 'version control info', 'search status']
+    # 状态栏右端部分的构成
+    statusline_right_sections = ['cursorpos', 'percentage', 'input method', 'date', 'time']
+    # 列表可以由以下一项或多项组成
+
+    # 'winnr' 当前窗口编号
+    # 'syntax checking'
+    # 'filename' 文件名
+    # 'fileformat' 文件格式
+    # 'major mode'
+    # 'minor mode lighters'
+    # 'cursorpos' 光标位置
+    # 'percentage' 百分比
+    # 'date' 日期
+    # 'time' 时间
+    # 'whitespace' 打开或者保存文件时，如果第 n 行的行尾有空格则显示 trailing[n]，并不能实时显示出行尾有空格的行号。
+    # 'battery status' 电池状态
+    # 'input method' 输入法
+    # 'search status' 搜索状态
+
+
+#    By SwYoung
