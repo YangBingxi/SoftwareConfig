@@ -25,7 +25,7 @@ sudo apt install curl -y
 sudo apt install vim -y
 sudo apt install clang-format -y
 sudo snap install clangd --classic
-npm install --global vscode-html-languageserver-bin
+sudo npm install --global vscode-html-languageserver-bin
 #安装Spacevim
 curl -sLf https://spacevim.org/install.sh | bash
 
