@@ -24,7 +24,8 @@ wget -qO- https://raw.githubusercontent.com/youngsw/SoftwareConfig/master/SpaceV
 
 **注意：**
 
-现已去除脚本中对init文件的替换。
+- 现已去除脚本中对init文件的替换。
 
 ```init.toml```文件位于```~/.SpaceVim.d/```中，具体配置可以参考 [官方模块配置链接](https://spacevim.org/cn/layers/) 和 [个人配置](https://raw.githubusercontent.com/youngsw/SoftwareConfig/master/init.toml)
 
+- 正常情况下插件会自动安装，如果没有自动安装，可以```:SPUpdate```来更新插件
