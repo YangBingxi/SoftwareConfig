@@ -25,14 +25,18 @@ sudo apt install curl -y
 sudo apt install vim -y
 sudo apt install clang-format -y
 sudo snap install clangd --classic
+npm install --global vscode-html-languageserver-bin
 #安装Spacevim
 curl -sLf https://spacevim.org/install.sh | bash
 
-
 sudo chmod 777 ~/.vim/
 sudo chmod 777 ~/.Vim*
+sudo chmod 777 ~/.vim*
 sudo chmod 777 ~/.SpaceVim*
 
+curl -o init.toml  https://raw.githubusercontent.com/youngsw/SoftwareConfig/master/init.toml
+sudo rm ~/.SpaceVim.d/init.toml 
+sudo mv init.toml ~/.SpaceVim.d/  
 echo -e  "\033[32m vim命令行下可以试用SPUpdate进行插件更新 \033[0m"
 echo -e  "\033[32m SpaceVim的配置请参考 \033[0m"
 firefox https://spacevim.org/cn/quick-start-guide/ #url
