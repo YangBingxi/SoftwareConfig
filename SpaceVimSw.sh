@@ -34,9 +34,11 @@ sudo chmod 777 ~/.Vim*
 sudo chmod 777 ~/.vim*
 sudo chmod 777 ~/.SpaceVim*
 
-curl -o init.toml  https://raw.githubusercontent.com/youngsw/SoftwareConfig/master/init.toml
-sudo rm ~/.SpaceVim.d/init.toml 
-sudo mv init.toml ~/.SpaceVim.d/  
+# 去除init文件的替换，请自行甄别配置，模块配置可以参考https://spacevim.org/cn/layers/
+#curl -o init.toml  https://raw.githubusercontent.com/youngsw/SoftwareConfig/master/init.toml
+#sudo rm ~/.SpaceVim.d/init.toml 
+#sudo mv init.toml ~/.SpaceVim.d/  
+
 echo -e  "\033[32m vim命令行下可以试用SPUpdate进行插件更新 \033[0m"
 echo -e  "\033[32m SpaceVim的配置请参考 \033[0m"
 firefox https://spacevim.org/cn/quick-start-guide/ #url

@@ -21,3 +21,10 @@ wget -qO- https://raw.githubusercontent.com/youngsw/SoftwareConfig/master/SpaceV
 - ![展示](img/spacevim.png)
 
   ![展示](img/spacevim2.png)
+
+**注意：**
+
+现已去除脚本中对init文件的替换。
+
+```init.toml```文件位于```~/.SpaceVim.d/```中，具体配置可以参考 [官方模块配置链接](https://spacevim.org/cn/layers/) 和 [个人配置](https://raw.githubusercontent.com/youngsw/SoftwareConfig/master/init.toml)
+
