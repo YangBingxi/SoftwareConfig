@@ -1,5 +1,3 @@
-[top]
-
 # SoftwareConfig
 
 ## Spacevim
