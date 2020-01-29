@@ -1,11 +1,21 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"    __  __     __     _____ __  __   ____                         "
+"   |  \/  |_   \ \   / /_ _|  \/  | | __ ) _   _   _____      __  "
+"   | |\/| | | | \ \ / / | || |\/| | |  _ \| | | | / __\ \ /\ / /  "
+"   | |  | | |_| |\ V /  | || |  | | | |_) | |_| | \__ \\ V  V /   "
+"   |_|  |_|\__, | \_/  |___|_|  |_| |____/ \__, | |___/ \_/\_/    "
+"           |___/                           |___/                  "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 let mapleader=" "
 "让空格键成为leader键"
 
-"----------基础配置-----------"
-"-----------------------------"
+"--------------------------基础配置--------------------------"
+"------------------------------------------------------------"
 set nocompatible "不兼容vi指令"
+set shell=sh
 "开启文件识别"
-filetype on 
+filetype on
 filetype indent on
 filetype plugin on
 filetype plugin indent on
@@ -23,7 +33,7 @@ set softtabstop=4 "Insert模式下一个tab占4个空格"
 "list设置"
 set list "显示非打印字符"
 set listchars=tab:▸\ ,trail:▫
-set scrolloff=5
+set scrolloff=5 "在上下移动光标的时候，让其停留在距离底部或顶部5行的位置，这样可以方便查看
 set tw=0
 set indentexpr=
 set backspace=indent,eol,start "让退格键可以从行首到上一行的行尾"
@@ -31,9 +41,16 @@ set backspace=indent,eol,start "让退格键可以从行首到上一行的行尾
 set foldmethod=indent
 set foldlevel=99 "折叠级别"
 "在不同模式下设置不同的光标"
-let &t_SI="\<Esc>]50;CursorShape=1\x7"
-let &t_SR="\<Esc>]50;CursorShape=2\x7"
-let &t_EI="\<Esc>]50;CursorShape=0\x7"
+"Cursor settings:
+"  1 -> blinking block
+"  2 -> solid block
+"  3 -> blinking underscore
+"  4 -> solid underscore
+"  5 -> blinking vertical bar
+"  6 -> solid vertical bar
+let &t_SI.="\e[5 q" "SI = INSERT mode
+let &t_SR.="\e[4 q" "SR = REPLACE mode
+let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
 set laststatus=2 "设置总显示状态行"
 set autochdir "保证vim的操作在当前目录下"
@@ -41,6 +58,7 @@ set autochdir "保证vim的操作在当前目录下"
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 set cursorline "启用当前光标所在行显示线"
+"set cursorcolumn "启用当前光标所在列显示线
 set number "开启行号"
 set relativenumber "开启相对行号。如不需要，可以将该参数改为norelativenumber"
 set wrap "让文本始终显示在窗口内"
@@ -53,9 +71,21 @@ set incsearch "边输入边高亮显示搜索结果"
 set ignorecase "搜索时，忽略大小写"
 set smartcase "搜索时，使用只能大小写模糊"
 
+"找到文中两个连续相同的字符或单词
+map <LEADER>fd /\(\<\w\+\>\)\_s*\1 
 
-"----------键位配置-----------"
-"-----------------------------"
+"开启、关闭拼写检查
+"光标停留在提示错误的词下，按 z= 会出现建议
+map <LEADER>sp :set spell!<CR>
+
+"快速在锚点间跳转，锚点为<++>
+map <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
+
+
+"--------------------------键位配置--------------------------"
+"------------------------------------------------------------"
+"快捷键打开vimrc
+map <LEADER>rc :edit ~/.vimrc<CR>
 "Q为退出"
 map Q :q<CR>
 "S为保存"
@@ -69,8 +99,8 @@ map s <nop>
 map ss :set splitright<CR>:vsplit<CR>
 map sn :set nosplitright<CR>:vsplit<CR>
 "       上下
-map sm :set splitright<CR>:split<CR>
-map s, :set nosplitright<CR>:split<CR>
+map sm :set splitbelow<CR>:split<CR>
+map s, :set nosplitbelow<CR>:split<CR>
 "光标在多窗口间移动
 "先空格，然后上下左右即可
 map <LEADER>i <C-w>k
@@ -117,8 +147,8 @@ noremap <LEADER><CR> :nohlsearch<CR>
 
 
 
-"----------插件管理-----------"
-"-----------------------------"
+"--------------------------插件管理--------------------------"
+"------------------------------------------------------------"
 "说明：
 "使用vim-plug插件管理器
 "项目地址：https://github.com/junegunn/vim-plug
@@ -131,7 +161,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'connorholyday/vim-snazzy'
 
 " File navigation
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Taglist
@@ -168,9 +198,9 @@ Plug 'mattn/emmet-vim'
 Plug 'vim-scripts/indentpython.vim'
 
 " Markdown
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install_sync() }, 'for' :['markdown', 'vim-plug'] }
-Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
-Plug 'vimwiki/vimwiki'
+Plug 'iamcco/mathjax-support-for-mkdp'
+Plug 'iamcco/markdown-preview.vim'
+
 
 " Bookmarks
 Plug 'kshenoy/vim-signature'
@@ -192,26 +222,17 @@ call plug#end()
 "使用snazzy配色
 color snazzy
 "使用透明,服务器端由于要使用ssh，不建议使用
-"let g:	SnazzyTransparent = 1
+"let g:SnazzyTransparent = 1
 
 
 " === NERDTree === "
 autocmd vimenter * NERDTree  "进入vim后，自动加载目录树"
 map ff :NERDTreeToggle<CR>   "按ff可以进入目录树"
-let NERDTreeMapOpenExpl = ""
-let NERDTreeMapUpdir = ""
-let NERDTreeMapUpdirKeepOpen = "l"
-let NERDTreeMapOpenSplit = ""
-let NERDTreeOpenVSplit = ""
-let NERDTreeMapActivateNode = "i"
-let NERDTreeMapOpenInTab = "o"
-let NERDTreeMapPreview = ""
-let NERDTreeMapCloseDir = "n"
-let NERDTreeMapChangeRoot = "y"
+
 " NERDTress File highlighting
 function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
- exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
- exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
 endfunction
 
 call NERDTreeHighlightFile('java', 'blue', 'none', '#3366FF', '#151515')
@@ -231,6 +252,7 @@ call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
 call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
 call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
 call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
+
 " === NERDTree-git === "
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "✹",
@@ -245,9 +267,7 @@ let g:NERDTreeIndicatorMapCustom = {
     \ }
 
 
-" ===
-" === You Complete ME
-" ===
+" === You Complete ME === "
 nnoremap gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap g/ :YcmCompleter GetDoc<CR>
 nnoremap gt :YcmCompleter GetType<CR>
@@ -259,21 +279,21 @@ let g:ycm_python_interpreter_path = "/bin/python3"
 let g:ycm_python_binary_path = "/bin/python3"
 
 
-" ===
-" === ale
-" ===
+" === ale === "
 let b:ale_linters = ['pylint']
 let b:ale_fixers = ['autopep8', 'yapf']
-
-" ===
-" === Taglist
-" ===
-map <silent> F :TagbarOpenAutoClose<CR>
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
+let g:airline#extensions#ale#enabled = 1
 
 
-" ===
-" === MarkdownPreview
-" ===
+" === Taglist === "
+map F :TagbarOpenAutoClose<CR>
+
+
+
+" === MarkdownPreview === "
+let g:mkdp_path_to_chrome = "google-chrome"
 let g:mkdp_auto_start = 0
 let g:mkdp_auto_close = 1
 let g:mkdp_refresh_slow = 0
@@ -298,21 +318,18 @@ let g:mkdp_port = ''
 let g:mkdp_page_title = '「${name}」'
 
 
-" ===
-" === vim-table-mode
-" ===
+
+" === vim-table-mode === "
 map <LEADER>tm :TableModeToggle<CR>
 
-" ===
-" === Python-syntax
-" ===
+
+" === Python-syntax === "
 let g:python_highlight_all = 1
 " let g:python_slow_sync = 0
 
 
-" ===
-" === vim-indent-guide
-" ===
+
+" === vim-indent-guide === "
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_enable_on_vim_startup = 1
@@ -321,16 +338,13 @@ silent! unmap <LEADER>ig
 autocmd WinEnter * silent! unmap <LEADER>ig
 
 
-" ===
-" === Goyo Focus编辑模式
-" ===
+
+" === Goyo Focus编辑模式 === "
 map <LEADER>gy :Goyo<CR>
 
 
-" ===
-" === vim-signiture
-" === 给某行添加书签，如ma 则给某行添加一个叫a的标签,用空格标签名进行跳转
-" ===
+
+" === vim-signiture === 给某行添加书签，如ma 则给某行添加一个叫a的标签,用空格标签名进行跳转 === "
 let g:SignatureMap = {
         \ 'Leader'             :  "m",
         \ 'PlaceNextMark'      :  "m,",
@@ -355,10 +369,51 @@ let g:SignatureMap = {
         \ 'ListLocalMarkers'   :  "m?"
         \ }
 
-
-" ===
-" === Undotree
-" === 版本管理
-" ===
+" === Undotree 版本管理 === "
 let g:undotree_DiffAutoOpen = 0
 map L :UndotreeToggle<CR>
+
+"--------------------------文件配置--------------------------"
+"------------------------------------------------------------"
+"新建.c,.h,.sh,.java文件，自动插入文件头 
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java exec ":call SetTitle()" 
+""定义函数SetTitle，自动插入文件头 
+func SetTitle() 
+	"如果文件类型为.sh文件 
+	if &filetype == 'sh' 
+		call setline(1, "##########################################################################") 
+		call append(line("."), "# File Name: ".expand("%")) 
+		call append(line(".")+1, "# Author: amoscykl") 
+		call append(line(".")+2, "# mail: amoscykl980629@163.com") 
+		call append(line(".")+3, "# Created Time: ".strftime("%c")) 
+		call append(line(".")+4, "#########################################################################") 
+		call append(line(".")+5, "#!/bin/zsh")
+		call append(line(".")+6, "PATH=/home/edison/bin:/home/edison/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/work/tools/gcc-3.4.5-glibc-2.3.6/bin")
+		call append(line(".")+7, "export PATH")
+		call append(line(".")+8, "")
+	else 
+		call setline(1, "/*************************************************************************") 
+		call append(line("."), "	> File Name: ".expand("%")) 
+		call append(line(".")+1, "	> Author: SwYoung") 
+		call append(line(".")+2, "	> Mail: sw_young@outlook.com") 
+		call append(line(".")+3, "	> Created Time: ".strftime("%c")) 
+		call append(line(".")+4, " ************************************************************************/") 
+		call append(line(".")+5, "")
+	endif
+	if &filetype == 'cpp'
+		call append(line(".")+6, "#include<iostream>")
+    	call append(line(".")+7, "using namespace std;")
+		call append(line(".")+8, "")
+	endif
+	if &filetype == 'c'
+		call append(line(".")+6, "#include<stdio.h>")
+		call append(line(".")+7, "")
+	endif
+	"	if &filetype == 'java'
+	"		call append(line(".")+6,"public class ".expand("%"))
+	"		call append(line(".")+7,"")
+	"	endif
+	"新建文件后，自动定位到文件末尾
+	autocmd BufNewFile * normal G
+endfunc
+
