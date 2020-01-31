@@ -14,8 +14,9 @@ let mapleader=" "
 "------------------------------------------------------------"
 set nocompatible "不兼容vi指令"
 set shell=sh
-"开启文件识别"
+"关闭文件识别"
 filetype on
+
 filetype indent on
 filetype plugin on
 filetype plugin indent on
@@ -78,8 +79,18 @@ map <LEADER>fd /\(\<\w\+\>\)\_s*\1
 "光标停留在提示错误的词下，按 z= 会出现建议
 map <LEADER>sp :set spell!<CR>
 
-"快速在锚点间跳转，锚点为<++>
-map <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
+"快速在锚点间跳转，锚点为"<++>"
+map <LEADER>n <Esc>/<++><CR>:nohlsearch<CR>c4l
+
+" 有关括号的设置
+"设置当键入大括号时自动补全并缩进4个单位
+imap {<CR> {<CR>}<Esc>O<Tab>
+"当键入小括号、中括号时，进行补全，并进入括号内部编辑
+imap [ []<LEFT>
+imap ( ()<LEFT>
+imap 【 【】<LEFT>
+imap （ （）<LEFT>
+imap 《 《》<LEFT>
 
 
 "--------------------------键位配置--------------------------"
@@ -224,10 +235,23 @@ color snazzy
 "使用透明,服务器端由于要使用ssh，不建议使用
 "let g:SnazzyTransparent = 1
 
-
 " === NERDTree === "
-autocmd vimenter * NERDTree  "进入vim后，自动加载目录树"
+"autocmd vimenter * NERDTree  "进入vim后，自动加载目录树"
+"打开文件时不会自动打开目录树，否则会自动打开目录
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
 map ff :NERDTreeToggle<CR>   "按ff可以进入目录树"
+let NERDTreeMapOpenExpl = ""
+let NERDTreeMapUpdir = ""
+let NERDTreeMapUpdirKeepOpen = "l"
+let NERDTreeMapOpenSplit = ""
+let NERDTreeOpenVSplit = ""
+let NERDTreeMapActivateNode = "i"
+let NERDTreeMapOpenInTab = "o"
+let NERDTreeMapPreview = ""
+let NERDTreeMapCloseDir = "n"
+let NERDTreeMapChangeRoot = "y"
 
 " NERDTress File highlighting
 function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
@@ -266,7 +290,6 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Unknown"   : "?"
     \ }
 
-
 " === You Complete ME === "
 nnoremap gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap g/ :YcmCompleter GetDoc<CR>
@@ -275,20 +298,20 @@ nnoremap gr :YcmCompleter GoToReferences<CR>
 let g:ycm_autoclose_preview_window_after_completion=0
 let g:ycm_autoclose_preview_window_after_insertion=1
 let g:ycm_use_clangd = 0
-let g:ycm_python_interpreter_path = "/bin/python3"
-let g:ycm_python_binary_path = "/bin/python3"
+let g:ycm_python_interpreter_path = "/usr/bin/python3"
+let g:ycm_python_binary_path = "/usr/bin/python3"
 
 
 " === ale === "
 let b:ale_linters = ['pylint']
 let b:ale_fixers = ['autopep8', 'yapf']
-let g:ale_sign_error = '>>'
-let g:ale_sign_warning = '--'
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚡'
 let g:airline#extensions#ale#enabled = 1
-
+map <LEADER>s :ALEToggle<CR>
 
 " === Taglist === "
-map F :TagbarOpenAutoClose<CR>
+map <silent>F :TagbarToggle<CR>
 
 
 
@@ -373,6 +396,38 @@ let g:SignatureMap = {
 let g:undotree_DiffAutoOpen = 0
 map L :UndotreeToggle<CR>
 
+" === indent-guides === "
+" 默认打开
+let g:indent_guides_enable_on_vim_startup = 1
+map <LEADER>ig :IndentGuidesToggle<CR>
+
+" === vim-signify
+
+
+" === vim-multiple-cursor === "
+let g:multi_cursor_use_default_mapping=0
+let g:multi_cursor_start_word_key      = '<c-k>'
+let g:multi_cursor_select_all_word_key = '<a-k>'
+let g:multi_cursor_start_key           = 'g<c-k>'
+let g:multi_cursor_select_all_key      = 'g<a-k>'
+let g:multi_cursor_next_key            = '<c-k>'
+let g:multi_cursor_prev_key            = '<c-p>'
+let g:multi_cursor_skip_key            = '<C-x>'
+let g:multi_cursor_quit_key            = '<Esc>'
+
+let g:vimwiki_list = [{
+  \ 'automatic_nested_syntaxes':1,
+  \ 'path_html': '~/wiki_html',
+  \ 'path': '~/wiki',
+  \ 'template_path': '~/.vim/vimwiki/template/',
+  \ 'syntax': 'markdown',
+  \ 'ext':'.md',
+  \ 'template_default':'markdown',
+  \ 'custom_wiki2html': '~/.vim/vimwiki/wiki2html.sh',
+  \ 'template_ext':'.html'
+\}]
+
+
 "--------------------------文件配置--------------------------"
 "------------------------------------------------------------"
 "新建.c,.h,.sh,.java文件，自动插入文件头 
@@ -415,5 +470,32 @@ func SetTitle()
 	"	endif
 	"新建文件后，自动定位到文件末尾
 	autocmd BufNewFile * normal G
+endfunc
+
+" Compile function
+map r :call CompileRunGcc()<CR>
+func! CompileRunGcc()
+  exec "w"
+  if &filetype == 'c'
+    exec "!g++ % -o %<"
+    exec "!time ./%<"
+  elseif &filetype == 'cpp'
+    exec "!g++ % -o %<"
+    exec "!time ./%<"
+  elseif &filetype == 'java'
+    exec "!javac %"
+    exec "!time java %<"
+  elseif &filetype == 'sh'
+    :!time bash %
+  elseif &filetype == 'python'
+    silent! exec "!clear"
+    exec "!time python3 %"
+  elseif &filetype == 'html'
+    exec "!firefox % &"
+  elseif &filetype == 'markdown'
+    exec "MarkdownPreview"
+  elseif &filetype == 'vimwiki'
+    exec "MarkdownPreview"
+  endif
 endfunc
 
