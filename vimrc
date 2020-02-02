@@ -441,7 +441,7 @@ let g:SignatureMap = {
 
 " === Undotree 版本管理 === "
 let g:undotree_DiffAutoOpen = 0
-normal L :UndotreeToggle<CR>
+map <LEADER>l :UndotreeToggle<CR>
 
 " === indent-guides === "
 " 默认打开
