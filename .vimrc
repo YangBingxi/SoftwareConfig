@@ -270,11 +270,6 @@ Plug 'fadein/vim-FIGlet'
 "Auto Pairs
 Plug 'jiangmiao/auto-pairs'
 
-"vimwiki
-Plug 'vimwiki/vimwiki'
-
-"calendar
-Plug 'itchyny/calendar.vim'
 
 call plug#end()
 "使用snazzy配色
@@ -441,7 +436,7 @@ let g:SignatureMap = {
 
 " === Undotree 版本管理 === "
 let g:undotree_DiffAutoOpen = 0
-normal L :UndotreeToggle<CR>
+map L :UndotreeToggle<CR>
 
 " === indent-guides === "
 " 默认打开
@@ -471,23 +466,13 @@ let g:vimwiki_list = [{
   \ 'automatic_nested_syntaxes':1,
   \ 'path_html': '~/wiki_html',
   \ 'path': '~/wiki',
-  \ 'template_path': '~/.vim/vimwiki/template',
+  \ 'template_path': '~/.vim/vimwiki/template/',
   \ 'syntax': 'markdown',
   \ 'ext':'.md',
   \ 'template_default':'markdown',
   \ 'custom_wiki2html': '~/.vim/vimwiki/wiki2html.sh',
   \ 'template_ext':'.html'
 \}]
-
-au BufRead,BufNewFile *.md set filetype=vimwiki
-
-let g:taskwiki_sort_orders={"C": "pri-"}
-let g:taskwiki_syntax = 'markdown'
-let g:taskwiki_markdown_syntax='markdown'
-let g:taskwiki_markup_syntax='markdown'
-
-
-
 
 "auto-pairs
 let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', "`":"`", '```':'```', '"""':'"""', "'''":"'''"}
@@ -509,22 +494,6 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
 
-"calendar
-let g:calendar_frame = 'default'
-noremap <LEADER>ac :Calendar<CR>
-noremap <LEADER>acc :Calendar -view=clock<CR>
-noremap <LEADER>acw :Calendar -view=week<CR>
-noremap <LEADER>acm :Calendar -view=month<CR>
-noremap <LEADER>acy :Calendar -view=year<CR>
-augroup calendar-mappings
-    autocmd!
-    "direction
-    autocmd FileType calendar nmap <buffer> i <Plug>(calendar_up)
-    autocmd FileType calendar nmap <buffer> k <Plug>(calendar_down)
-    autocmd FileType calendar nmap <buffer> j <Plug>(calendar_left)
-    autocmd FileType calendar nmap <buffer> l <Plug>(calendar_right)
-
-augroup END
 
 "--------------------------文件配置--------------------------"
 "------------------------------------------------------------"
