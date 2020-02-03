@@ -147,7 +147,6 @@ map <C-j> :vertical resize +5<CR>
 map <C-l> :vertical resize -5<CR>
 
 
-
 "     行快捷键     "
 "  0为行首-为行末  ”
 map - $
@@ -178,7 +177,7 @@ map <LEADER>sh :term bash<CR>
 "
 "map <LEADER-i> g;
 "map <LEADER-k> g,
-
+map <CaspLock> <Esc>
 
 
 "--------------------------文件管理--------------------------"
@@ -441,7 +440,7 @@ let g:SignatureMap = {
 
 " === Undotree 版本管理 === "
 let g:undotree_DiffAutoOpen = 0
-map <LEADER>l :UndotreeToggle<CR>
+map <LEADER>al :UndotreeToggle<CR>
 
 " === indent-guides === "
 " 默认打开
@@ -471,11 +470,11 @@ let g:vimwiki_list = [{
   \ 'automatic_nested_syntaxes':1,
   \ 'path_html': '~/wiki_html',
   \ 'path': '~/wiki',
-  \ 'template_path': '~/.vim/vimwiki/template',
+  \ 'template_path': '~/.vim/sourcefile/vimwiki/template',
   \ 'syntax': 'markdown',
   \ 'ext':'.md',
   \ 'template_default':'markdown',
-  \ 'custom_wiki2html': '~/.vim/vimwiki/wiki2html.sh',
+  \ 'custom_wiki2html': '~/.vim/sourcefile/vimwiki/wiki2html.sh',
   \ 'template_ext':'.html'
 \}]
 
