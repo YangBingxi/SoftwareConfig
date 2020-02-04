@@ -21,7 +21,8 @@ setlocal dictionary=~/.vim/sourcefile/dict
 
 "--------------------------基础配置--------------------------"
 "------------------------------------------------------------"
-set nocompatible "不兼容vi指令"
+"不兼容vi指令"
+set nocompatible 
 set shell=sh
 "关闭文件识别"
 filetype on
@@ -295,7 +296,13 @@ color snazzy
 "autocmd vimenter * NERDTree  "进入vim后，自动加载目录树"
 "打开文件时不会自动打开目录树，否则会自动打开目录
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd VimEnter *
+                \   if !argc()
+                \ |   Startify
+                \ |   NERDTree
+                \ |   wincmd w
+                \ | endif
 
 map ff :NERDTreeToggle<CR>   "按ff可以进入目录树"
 let NERDTreeMapOpenExpl = ""
@@ -534,6 +541,10 @@ augroup calendar-mappings
     autocmd FileType calendar nmap <buffer> l <Plug>(calendar_right)
 
 augroup END
+
+
+
+
 
 "--------------------------文件配置--------------------------"
 "------------------------------------------------------------"
