@@ -16,9 +16,7 @@ let mapleader=" "
 source $HOME/.vim/sourcefile/iabbr.vim
 
 "引入单词补全文件，<C-x-k>
-setlocal dictionary+=~/.vim/sourcefile/dict
-
-
+setlocal dictionary=~/.vim/sourcefile/dict
 
 
 "--------------------------基础配置--------------------------"
@@ -83,7 +81,7 @@ set ignorecase "搜索时，忽略大小写"
 set smartcase "搜索时，使用只能大小写模糊"
 
 "找到文中两个连续相同的字符或单词
-map <LEADER>fd /\(\<\w\+\>\)\_s*\1 
+map <LEADER>fd /\(\<\w\+\>\)\_s*\1
 
 "开启、关闭拼写检查
 "光标停留在提示错误的词下，按 z= 会出现建议
@@ -103,6 +101,13 @@ imap （ （）<LEFT>
 imap 《 《》<LEFT>
 imap ‘ ‘’<LEFT>
 imap “ “”<LEFT>
+
+"sudo 强制写入
+cnoremap w!! w !sudo tee %
+
+
+
+
 
 
 "--------------------------按键配置--------------------------"
@@ -177,8 +182,9 @@ map <LEADER>sh :term bash<CR>
 "
 "map <LEADER-i> g;
 "map <LEADER-k> g,
-map <CaspLock> <Esc>
 
+" 插入模式下按jj进行退出
+inoremap jj <Esc>
 
 "--------------------------文件管理--------------------------"
 "------------------------------------------------------------"
@@ -274,6 +280,10 @@ Plug 'vimwiki/vimwiki'
 
 "calendar
 Plug 'itchyny/calendar.vim'
+
+
+"vim-startify
+Plug 'mhinz/vim-startify'
 
 call plug#end()
 "使用snazzy配色
