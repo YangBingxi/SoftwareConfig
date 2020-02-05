@@ -133,9 +133,9 @@ map sm :set splitbelow<CR>:split<CR>
 map s, :set nosplitbelow<CR>:split<CR>
 "光标在多窗口间移动
 "先空格，然后上下左右即可
-map <LEADER>i <C-w>k
-map <LEADER>k <C-w>j
-map <LEADER>j <C-w>h
+map <LEADER>k <C-w>k
+map <LEADER>j <C-w>j
+map <LEADER>h <C-w>h
 map <LEADER>l <C-w>l
 map <LEADER><up> <C-w>k
 map <LEADER><down> <C-w>j
@@ -147,34 +147,29 @@ map <C-up> :res +5<CR>
 map <C-down> :res -5<CR>
 map <C-left> :vertical resize +5<CR>
 map <C-right> :vertical resize -5<CR>
-map <C-i> :res +5<CR>
-map <C-k> :res -5<CR>
-map <C-j> :vertical resize +5<CR>
+map <C-k> :res +5<CR>
+map <C-j> :res -5<CR>
+map <C-h> :vertical resize +5<CR>
 map <C-l> :vertical resize -5<CR>
 
 
 "     行快捷键     "
 "  0为行首-为行末  ”
-map - $
+noremap - $
 
 "    定义方向按键   "
 "         ^
-"         i         "
-"     < j   l >     "
 "         k         "
+"     < h   l >     "
+"         j         "
 "         v
 
-noremap j h
-noremap k j
-noremap i k
 "大写时为移动5个单位"
-noremap J 5h
+noremap H 5h
 noremap L 5l
-noremap I 5k
-noremap K 5j
-"h为插入键          " 
-noremap h i
-noremap H I
+noremap K 5k
+noremap KJ 5j
+
 "LEADER CR为取消显示搜索结果"
 noremap <LEADER><CR> :nohlsearch<CR>
 
@@ -183,21 +178,8 @@ map <LEADER>sh :term bash<CR>
 "
 "map <LEADER-i> g;
 "map <LEADER-k> g,
-
 " 插入模式下按jj进行退出
 inoremap jj <Esc>
-
-"--------------------------文件管理--------------------------"
-"------------------------------------------------------------"
-
-
-
-
-
-
-
-
-
 
 
 
@@ -216,10 +198,10 @@ Plug 'connorholyday/vim-snazzy'
 
 " File navigation
 Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+"Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Taglist
-Plug 'majutsushi/tagbar', { 'on': 'TagbarOpenAutoClose' }
+Plug 'majutsushi/tagbar'
 
 " Error checking
 Plug 'w0rp/ale'
@@ -239,6 +221,8 @@ Plug 'rhysd/conflict-marker.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
 Plug 'gisphm/vim-gitignore', { 'for': ['gitignore', 'vim-plug'] }
+Plug 'airblade/vim-gitgutter'
+Plug 'junegunn/gv.vim'
 
 " HTML, CSS, JavaScript, PHP, JSON, etc.
 Plug 'elzr/vim-json'
@@ -249,7 +233,10 @@ Plug 'pangloss/vim-javascript', { 'for' :['javascript', 'vim-plug'] }
 Plug 'mattn/emmet-vim'
 
 " Python
-Plug 'vim-scripts/indentpython.vim'
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+
+
+
 
 " Markdown
 Plug 'iamcco/mathjax-support-for-mkdp'
@@ -286,6 +273,28 @@ Plug 'itchyny/calendar.vim'
 "vim-startify
 Plug 'mhinz/vim-startify'
 
+"indentline
+Plug 'yggdroot/indentline'
+"文件搜索
+Plug 'ctrlpvim/ctrlp.vim'
+
+"快速定位
+Plug 'easymotion/vim-easymotion'
+
+"模糊搜索”
+Plug 'junegunn/fzf', { 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
+
+"搜索替换
+Plug 'brooth/far.vim'
+"单词高亮
+Plug 'lfv89/vim-interestingwords'
+
+"format
+Plug 'Chiel92/vim-autoformat'
+
+
+
 call plug#end()
 "使用snazzy配色
 color snazzy
@@ -294,7 +303,7 @@ color snazzy
 
 " === NERDTree === "
 "autocmd vimenter * NERDTree  "进入vim后，自动加载目录树"
-"打开文件时不会自动打开目录树，否则会自动打开目录
+"打开文件时不会自动打开目录树和startify，否则会自动打开目录和startify
 autocmd StdinReadPre * let s:std_in=1
 "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 autocmd VimEnter *
@@ -304,17 +313,11 @@ autocmd VimEnter *
                 \ |   wincmd w
                 \ | endif
 
-map ff :NERDTreeToggle<CR>   "按ff可以进入目录树"
-let NERDTreeMapOpenExpl = ""
-let NERDTreeMapUpdir = ""
-let NERDTreeMapUpdirKeepOpen = "l"
-let NERDTreeMapOpenSplit = ""
-let NERDTreeOpenVSplit = ""
-let NERDTreeMapActivateNode = "i"
-let NERDTreeMapOpenInTab = "o"
-let NERDTreeMapPreview = ""
-let NERDTreeMapCloseDir = "n"
-let NERDTreeMapChangeRoot = "y"
+noremap ff :NERDTreeToggle<CR>   "按ff可以进入目录树"
+noremap <LEADER>v :NERDTreeFind<CR>
+"关闭默认显示隐藏文件，需要显示时可以在tree中按I
+"let NERDTreeShowHidden=1
+
 
 " NERDTress File highlighting
 function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
@@ -341,18 +344,18 @@ call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
 call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
 
 " === NERDTree-git === "
-let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ "Unknown"   : "?"
-    \ }
-
+"let g:NERDTreeIndicatorMapCustom = {
+    "\ "Modified"  : "✹",
+    "\ "Staged"    : "✚",
+    "\ "Untracked" : "✭",
+    "\ "Renamed"   : "➜",
+    "\ "Unmerged"  : "═",
+    "\ "Deleted"   : "✖",
+    "\ "Dirty"     : "✗",
+    "\ "Clean"     : "✔︎",
+    "\ "Unknown"   : "?"
+    "\ }
+"
 " === You Complete ME === "
 nnoremap gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap g/ :YcmCompleter GetDoc<CR>
@@ -374,7 +377,7 @@ let g:airline#extensions#ale#enabled = 1
 map <LEADER>s :ALEToggle<CR>
 
 " === Taglist === "
-map <silent>F :TagbarToggle<CR>
+noremap <silent>F :TagbarToggle<CR>
 
 
 
@@ -544,6 +547,27 @@ augroup END
 
 
 
+"快速打开startify
+noremap <LEADER>am :Startify<CR>
+
+
+"ctrlp
+let g:ctrlp_map='<C-p>'
+
+
+"easymotion
+nmap s <Plug>(easymotion-s2)
+nmap t <Plug>(easymotion-t2)
+
+"autoformat
+let g:formatter_yapf_style = 'pep8'
+"au BufWrite * :Autoformat
+noremap <LEADER>af :Autoformat<CR>
+
+
+"airblade/vim-gitgutter
+set updatetime=100 "100ms
+
 
 
 "--------------------------文件配置--------------------------"
@@ -616,4 +640,5 @@ func! CompileRunGcc()
     exec "MarkdownPreview"
   endif
 endfunc
+
 
