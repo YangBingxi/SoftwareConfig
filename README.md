@@ -1,6 +1,6 @@
 # SoftwareConfig
 
-## Spacevim
+## 一、Spacevim
 
 **说明：**
 
@@ -28,7 +28,9 @@ wget -qO- https://raw.githubusercontent.com/youngsw/SoftwareConfig/master/SpaceV
 
 - 正常情况下插件会自动安装，如果没有自动安装，可以```:SPUpdate```来更新插件
 
+---
 
+## 二、vim
 
-
-
+**说明：**
+- spacevim虽然好用，但是很多东西都像黑盒一样，并不知道是如何配置的，更推荐自己配置自己的vim或者neovim
